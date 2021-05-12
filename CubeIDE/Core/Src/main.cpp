@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "MPU6050.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,6 +61,9 @@ static void MX_USART3_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+//if(sensor.isDetected())
+
+
 /* USER CODE END 0 */
 
 /**
@@ -94,6 +97,9 @@ int main(void)
   MX_I2C4_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
+  MPU6050 sensor=MPU6050(&hi2c4,0xD3);
+  if(sensor.isDetected())
+	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
 
   /* USER CODE END 2 */
 
