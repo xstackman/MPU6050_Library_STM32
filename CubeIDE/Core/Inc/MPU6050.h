@@ -119,6 +119,10 @@ class MPU6050
 		MPU6050 ();
 		MPU6050 (I2C_HandleTypeDef *dev,uint8_t add);
 		int isDetected();
+		void setConfigReg(uint8_t val);
+		void setSampleRateDiv(uint8_t val);
+		void setFifoEnable(uint8_t val);
+		float getTemperature();
 	private:
 		I2C_HandleTypeDef *_dev;
 		uint8_t _dev_address;

@@ -1,3 +1,7 @@
 MPU6050.cpp:10:1:MPU6050::MPU6050()	16	static
 MPU6050.cpp:14:1:MPU6050::MPU6050(I2C_HandleTypeDef*, uint8_t)	24	static
 MPU6050.cpp:21:5:int MPU6050::isDetected()	32	static
+MPU6050.cpp:39:7:void MPU6050::setConfigReg(uint8_t)	32	static
+MPU6050.cpp:57:7:void MPU6050::setSampleRateDiv(uint8_t)	32	static
+MPU6050.cpp:64:7:void MPU6050::setFifoEnable(uint8_t)	32	static
+MPU6050.cpp:71:7:float MPU6050::getTemperature()	40	static

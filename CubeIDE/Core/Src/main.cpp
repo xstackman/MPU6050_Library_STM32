@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "MPU6050.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,13 +101,23 @@ int main(void)
   MPU6050 sensor=MPU6050(&hi2c4,0xD3);
   if(sensor.isDetected())
 	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+  sensor.setConfigReg(0x00);
+  sensor.setSampleRateDiv(0x00);
+  sensor.setFifoEnable(0x80);
 
+  float temperature=0;
+  char buffer_uart[20];
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  temperature=sensor.getTemperature();
+	  snprintf ( buffer_uart,20, "%f\n",temperature );
+	  HAL_UART_Transmit(&huart3, (uint8_t *)buffer_uart, 20, 10);
+	  HAL_Delay(500);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
