@@ -123,6 +123,10 @@ class MPU6050
 		void setSampleRateDiv(uint8_t val);
 		void setFifoEnable(uint8_t val);
 		float getTemperature();
+		HAL_StatusTypeDef writeSingleByte(uint8_t d, uint8_t reg);
+		HAL_StatusTypeDef writeWords(uint8_t *buffer,uint8_t len, uint8_t reg);
+		HAL_StatusTypeDef readSingleByte(uint8_t *d, uint8_t reg);
+		HAL_StatusTypeDef readWords(uint8_t *buffer,uint8_t len, uint8_t reg);
 	private:
 		I2C_HandleTypeDef *_dev;
 		uint8_t _dev_address;

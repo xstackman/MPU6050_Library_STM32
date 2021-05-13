@@ -1,4 +1,4 @@
-main.cpp:74:5:int main()	48	static
+main.cpp:74:5:int main()	16	static
 main.cpp:132:6:void SystemClock_Config()	232	static
 main.cpp:185:13:void MX_I2C4_Init()	8	static
 main.cpp:231:13:void MX_USART3_UART_Init()	8	static
