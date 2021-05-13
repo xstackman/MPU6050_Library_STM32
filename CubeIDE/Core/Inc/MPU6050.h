@@ -95,7 +95,7 @@
 
 
 /*  If you have pulled-up the A0 pin.
-  Default setting in MPU6050 module */
+ */
 
 //#define MPU6050_WRITE_ADD 			0xD2
 //#define MPU6050_READ_ADD 			0xD3
@@ -108,6 +108,34 @@
 
 
 
+typedef enum
+{
+	Gscale1 = 0x00,		/*  ± 250 °/s  */
+	Gscale2 = 0x01,		/*  ± 500 °/s  */
+	Gscale3 = 0x02,		/*  ± 1000 °/s  */
+	Gscale4 = 0x03    		/*  ± 2000 °/s  */
+} GyroScaleRange;
+
+typedef enum
+{
+	Ascale1 = 0x00,		/*  ± 2 g  */
+	Ascale2 = 0x01,		/*  ± 4 g  */
+	Ascale3 = 0x02,		/*  ± 8 g  */
+	Ascale4 = 0x03    		/*  ± 16 g  */
+} AccelScaleRange;
+
+typedef enum
+{
+	internal8MHz = 0x00,
+	pllXGyroRef = 0x01,
+	pllYGyroRef = 0x02,
+	pllZGyroRef = 0x03,
+	pllExt32768KHzRef = 0x04,
+	pllExt192MHzRef = 0x05,
+	stopClock= 0x07
+
+}MPU6050ClockSource;
+
 #include "stm32f7xx_hal.h"
 
 
@@ -119,10 +147,47 @@ class MPU6050
 		MPU6050 ();
 		MPU6050 (I2C_HandleTypeDef *dev,uint8_t add);
 		int isDetected();
-		void setConfigReg(uint8_t val);
-		void setSampleRateDiv(uint8_t val);
-		void setFifoEnable(uint8_t val);
+		int getFIFOCount();
+		int setClockSource(uint8_t d);
+		int enableTempSensor();
+		int disableTempSensor();
+		int goSleep();
+		int resetDevice();
+		int resetFIFO();
+		int enableFIFO();
+		int resetTemperatureADC();
+		int resetAccelerometerADC();
+		int resetGyroscopeADC();
+		int16_t getGyroZ();
+		int16_t getGyroY();
+		int16_t getGyroX();
 		float getTemperature();
+		int16_t getAccelZ();
+		int16_t getAccelY();
+		int16_t getAccelX();
+		int enableZGyroscopeFifo();
+		int enableYGyroscopeFifo();
+		int enableXGyroscopeFifo();
+		int enableTemperatureFifo();
+		int  writeFifoReg(uint8_t d);
+		int setAccelerometerScale(uint8_t d);
+		int selfTestZAAxis();
+		int selfTestYAAxis();
+		int selfTestXAAxis();
+		int setAccelerometerConfig(uint8_t d);
+		int setGyroscopeScale(uint8_t d);
+		int selfTestZGAxis();
+		int selfTestYGAxis();
+		int selfTestXGAxis();
+		int setGyroscopeConfig(uint8_t d);
+		int setLowPassFilter(uint8_t d);
+		int setExtFrameSync(uint8_t d);
+		int  setSampleRateDiv(uint8_t val);
+
+
+
+
+
 		HAL_StatusTypeDef writeSingleByte(uint8_t d, uint8_t reg);
 		HAL_StatusTypeDef writeWords(uint8_t *buffer,uint8_t len, uint8_t reg);
 		HAL_StatusTypeDef readSingleByte(uint8_t *d, uint8_t reg);
