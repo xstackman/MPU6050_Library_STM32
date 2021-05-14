@@ -99,24 +99,34 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   MPU6050 sensor=MPU6050(&hi2c4,0xD3);
-  if(sensor.isDetected())
+  if(sensor.isDetected()){
 	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+	  sensor.powerOn();
+	  sensor.setSampleRateDiv(0);
+	  sensor.setLowPassFilter(0);
+	  sensor.setClockSource(0);
+	  sensor.enableFIFO();
+	  sensor.enableTempSensor();
+	  sensor.resetTemperatureADC();
+  }
   //sensor.setConfigReg(0x00);
   //sensor.setSampleRateDiv(0x00);
  // sensor.setFifoEnable(0x80);
 
-//  float temperature=0;
-//  char buffer_uart[20];
+  float temperature=0;
+  uint8_t tmp_reg=0;
+  char buffer_uart[20];
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-/*	  temperature=sensor.getTemperature();
+	  temperature=sensor.getTemperature();
 	  snprintf ( buffer_uart,20, "%f\n",temperature );
 	  HAL_UART_Transmit(&huart3, (uint8_t *)buffer_uart, 20, 10);
-	  HAL_Delay(500);*/
+	  HAL_Delay(500);
+
 
     /* USER CODE END WHILE */
 

@@ -44,7 +44,7 @@ int MPU6050:: isDetected()
 
 int  MPU6050::setSampleRateDiv(uint8_t val)
 {
-	HAL_StatusTypeDef status = writeSingleByte(val,MPU6050_SMPLRT_DIV);
+	uint8_t status = writeSingleByte(val,MPU6050_SMPLRT_DIV);
 	if(status==HAL_OK)
 		return 1;
 	else
@@ -58,7 +58,7 @@ int MPU6050::setExtFrameSync(uint8_t d)
 	 *  Bits: [5:3] EXT_SYNC_SET
 	 * */
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -83,7 +83,7 @@ int MPU6050::setLowPassFilter(uint8_t d)
 	 *  Bits: [2:0] DLPF_CFG
 	 * */
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -113,7 +113,7 @@ int MPU6050::setGyroscopeConfig(uint8_t d)
 	 * */
 	/* This is for a complete register write */
 
-	HAL_StatusTypeDef status = writeSingleByte(d, MPU6050_GYRO_CONFIG);
+	uint8_t status = writeSingleByte(d, MPU6050_GYRO_CONFIG);
 
 	if(status == HAL_OK)
 		return 1;
@@ -133,7 +133,7 @@ int MPU6050::selfTestXGAxis()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_GYRO_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_GYRO_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -163,7 +163,7 @@ int MPU6050::selfTestYGAxis()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_GYRO_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_GYRO_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -193,7 +193,7 @@ int MPU6050::selfTestZGAxis()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_GYRO_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_GYRO_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -223,7 +223,7 @@ int MPU6050::setGyroscopeScale(uint8_t d)
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_GYRO_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_GYRO_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -231,7 +231,7 @@ int MPU6050::setGyroscopeScale(uint8_t d)
 	 * */
 
 	register_value = register_value & 0xE7;
-	register_value = register_value | d<3;
+	register_value = register_value | (d<3);
 
 	status = status | writeSingleByte(register_value, MPU6050_GYRO_CONFIG);
 
@@ -255,7 +255,7 @@ int MPU6050::setAccelerometerConfig(uint8_t d)
 
 	/* This is for a complete register write */
 
-	HAL_StatusTypeDef status = writeSingleByte(d, MPU6050_ACCEL_CONFIG);
+	uint8_t status = writeSingleByte(d, MPU6050_ACCEL_CONFIG);
 
 	if(status == HAL_OK)
 		return 1;
@@ -275,7 +275,7 @@ int MPU6050::selfTestXAAxis()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_ACCEL_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_ACCEL_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -305,7 +305,7 @@ int MPU6050::selfTestYAAxis()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_ACCEL_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_ACCEL_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -335,7 +335,7 @@ int MPU6050::selfTestZAAxis()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_ACCEL_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_ACCEL_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -365,7 +365,7 @@ int MPU6050::setAccelerometerScale(uint8_t d)
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_ACCEL_CONFIG);
+	uint8_t status = readSingleByte(&register_value,MPU6050_ACCEL_CONFIG);
 
 	/*
 	 * 	I assume that the data that you send has this format in 8 bits value:
@@ -373,7 +373,7 @@ int MPU6050::setAccelerometerScale(uint8_t d)
 	 * */
 
 	register_value = register_value & 0xE7;
-	register_value = register_value | d<3;
+	register_value = register_value | (d<3);
 
 	status = status | writeSingleByte(register_value, MPU6050_ACCEL_CONFIG);
 
@@ -402,7 +402,7 @@ int  MPU6050::writeFifoReg(uint8_t d)
 
 	/* This is for a complete register write */
 
-	HAL_StatusTypeDef status = writeSingleByte(d, MPU6050_FIFO_EN);
+	uint8_t status = writeSingleByte(d, MPU6050_FIFO_EN);
 
 	if(status == HAL_OK)
 		return 1;
@@ -426,7 +426,7 @@ int MPU6050::enableTemperatureFifo()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_FIFO_EN);
+	uint8_t status = readSingleByte(&register_value,MPU6050_FIFO_EN);
 
 	register_value = register_value & 0x7F;
 	register_value = register_value | 0x80;
@@ -457,7 +457,7 @@ int MPU6050::enableXGyroscopeFifo()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_FIFO_EN);
+	uint8_t status = readSingleByte(&register_value,MPU6050_FIFO_EN);
 
 	register_value = register_value & 0xBF;
 	register_value = register_value | 0x40;
@@ -487,7 +487,7 @@ int MPU6050::enableYGyroscopeFifo()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_FIFO_EN);
+	uint8_t status = readSingleByte(&register_value,MPU6050_FIFO_EN);
 
 	register_value = register_value & 0xDF;
 	register_value = register_value | 0x20;
@@ -516,7 +516,7 @@ int MPU6050::enableZGyroscopeFifo()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_FIFO_EN);
+	uint8_t status = readSingleByte(&register_value,MPU6050_FIFO_EN);
 
 	register_value = register_value & 0x7F;
 	register_value = register_value | 0x80;
@@ -564,9 +564,9 @@ int16_t MPU6050::getAccelX()
 {
 	uint8_t buffer[2];
 	int16_t tmp;
-	HAL_StatusTypeDef status =readSingleByte(&buffer[0], MPU6050_ACCEL_XOUT_H);
+	uint8_t status =readSingleByte(&buffer[0], MPU6050_ACCEL_XOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_ACCEL_XOUT_L);
-	tmp=(uint16_t)buffer;
+	tmp=(buffer[0]<<8) | buffer[1];
 	tmp-=1;
 	tmp = ~tmp;
 
@@ -580,9 +580,9 @@ int16_t MPU6050::getAccelY()
 {
 	uint8_t buffer[2];
 	int16_t tmp;
-	HAL_StatusTypeDef status =readSingleByte(&buffer[0], MPU6050_ACCEL_YOUT_H);
+	uint8_t status =readSingleByte(&buffer[0], MPU6050_ACCEL_YOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_ACCEL_YOUT_L);
-	tmp=(uint16_t)buffer;
+	tmp=(buffer[0]<<8) | buffer[1];
 	tmp-=1;
 	tmp = ~tmp;
 
@@ -596,9 +596,9 @@ int16_t MPU6050::getAccelZ()
 {
 	uint8_t buffer[2];
 	int16_t tmp;
-	HAL_StatusTypeDef status =readSingleByte(&buffer[0], MPU6050_ACCEL_ZOUT_H);
+	uint8_t status =readSingleByte(&buffer[0], MPU6050_ACCEL_ZOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_ACCEL_ZOUT_L);
-	tmp=(uint16_t)buffer;
+	tmp=(buffer[0]<<8) | buffer[1];
 	tmp-=1;
 	tmp = ~tmp;
 
@@ -613,9 +613,9 @@ float MPU6050::getTemperature()
 	uint8_t buffer[2];
 	int16_t tmp;
 	float result;
-	HAL_StatusTypeDef status =readSingleByte(&buffer[0], MPU6050_TEMP_OUT_H);
+	uint8_t status =readSingleByte(&buffer[0], MPU6050_TEMP_OUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_TEMP_OUT_L);
-	tmp=(uint16_t)buffer;
+	tmp=(buffer[0]<<8) | buffer[1];
 	result=(tmp/340.0)+36.53;
 
 	if(status == HAL_OK)
@@ -630,9 +630,9 @@ int16_t MPU6050::getGyroX()
 {
 	uint8_t buffer[2];
 	int16_t tmp;
-	HAL_StatusTypeDef status =readSingleByte(&buffer[0], MPU6050_GYRO_XOUT_H);
+	uint8_t status =readSingleByte(&buffer[0], MPU6050_GYRO_XOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_GYRO_XOUT_L);
-	tmp=(uint16_t)buffer;
+	tmp=(buffer[0]<<8) | buffer[1];
 	tmp-=1;
 	tmp = ~tmp;
 
@@ -646,9 +646,9 @@ int16_t MPU6050::getGyroY()
 {
 	uint8_t buffer[2];
 	int16_t tmp;
-	HAL_StatusTypeDef status =readSingleByte(&buffer[0], MPU6050_GYRO_YOUT_H);
+	uint8_t status =readSingleByte(&buffer[0], MPU6050_GYRO_YOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_GYRO_YOUT_L);
-	tmp=(uint16_t)buffer;
+	tmp=(buffer[0]<<8) | buffer[1];
 	tmp-=1;
 	tmp = ~tmp;
 
@@ -662,9 +662,9 @@ int16_t MPU6050::getGyroZ()
 {
 	uint8_t buffer[2];
 	int16_t tmp;
-	HAL_StatusTypeDef status =readSingleByte(&buffer[0], MPU6050_GYRO_ZOUT_H);
+	uint8_t status =readSingleByte(&buffer[0], MPU6050_GYRO_ZOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_GYRO_ZOUT_L);
-	tmp=(uint16_t)buffer;
+	tmp=(buffer[0]<<8) | buffer[1];
 	tmp-=1;
 	tmp = ~tmp;
 
@@ -713,7 +713,7 @@ int16_t MPU6050::getGyroZ()
 int MPU6050::resetGyroscopeADC()
 {
 	uint8_t register_value=0x04;
-	HAL_StatusTypeDef status =  writeSingleByte(register_value, MPU6050_SIGNAL_PATH_RESET);
+	uint8_t status =  writeSingleByte(register_value, MPU6050_SIGNAL_PATH_RESET);
 
 	if(status == HAL_OK)
 		return 1;
@@ -724,7 +724,7 @@ int MPU6050::resetGyroscopeADC()
 int MPU6050::resetAccelerometerADC()
 {
 	uint8_t register_value=0x02;
-	HAL_StatusTypeDef status =  writeSingleByte(register_value, MPU6050_SIGNAL_PATH_RESET);
+	uint8_t status =  writeSingleByte(register_value, MPU6050_SIGNAL_PATH_RESET);
 
 	if(status == HAL_OK)
 		return 1;
@@ -735,7 +735,7 @@ int MPU6050::resetAccelerometerADC()
 int MPU6050::resetTemperatureADC()
 {
 	uint8_t register_value=0x01;
-	HAL_StatusTypeDef status =  writeSingleByte(register_value, MPU6050_SIGNAL_PATH_RESET);
+	uint8_t status =  writeSingleByte(register_value, MPU6050_SIGNAL_PATH_RESET);
 
 	if(status == HAL_OK)
 		return 1;
@@ -759,7 +759,7 @@ int MPU6050::enableFIFO()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_USER_CTRL);
+	uint8_t status = readSingleByte(&register_value,MPU6050_USER_CTRL);
 
 	register_value = register_value & 0xBF;
 	register_value = register_value | 0x40;
@@ -794,7 +794,7 @@ int MPU6050::resetFIFO()
 	 * */
 
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_USER_CTRL);
+	uint8_t status = readSingleByte(&register_value,MPU6050_USER_CTRL);
 
 	register_value = register_value & 0xFB;
 	register_value = register_value | 0x04;
@@ -814,7 +814,7 @@ int MPU6050::resetFIFO()
 int MPU6050::resetDevice()
 {
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
+	uint8_t status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
 
 	register_value = register_value | 0x80;
 	status = status | writeSingleByte(register_value, MPU6050_PWR_MGMT_1);
@@ -828,7 +828,7 @@ int MPU6050::resetDevice()
 int MPU6050::goSleep()
 {
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
+	uint8_t status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
 
 	register_value = register_value | 0x40;
 	status = status | writeSingleByte(register_value, MPU6050_PWR_MGMT_1);
@@ -842,7 +842,7 @@ int MPU6050::goSleep()
 int MPU6050::disableTempSensor()
 {
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
+	uint8_t status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
 
 	register_value = register_value | 0x08;
 	status = status | writeSingleByte(register_value, MPU6050_PWR_MGMT_1);
@@ -856,7 +856,7 @@ int MPU6050::disableTempSensor()
 int MPU6050::enableTempSensor()
 {
 	uint8_t register_value=0;
-	HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
+	uint8_t status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
 
 	register_value = register_value & 0xF7;
 	status = status | writeSingleByte(register_value, MPU6050_PWR_MGMT_1);
@@ -867,14 +867,28 @@ int MPU6050::enableTempSensor()
 		return 0;
 }
 
+int MPU6050::powerOn()
+{
+	uint8_t register_value=0;
+	uint8_t status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
+
+	register_value = register_value & 0xBF;
+	status = status | writeSingleByte(register_value, MPU6050_PWR_MGMT_1);
+
+	if(status == HAL_OK)
+		return 1;
+	else
+		return 0;
+}
+
 int MPU6050::setClockSource(uint8_t d)
 {
-	if(d > 0x07 | d==0x06)
+	if((d > 0x07) || (d==0x06))
 		return 0;
 	else
 	{
 		uint8_t register_value=0;
-		HAL_StatusTypeDef status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
+		uint8_t status = readSingleByte(&register_value,MPU6050_PWR_MGMT_1);
 
 		register_value = register_value & 0xF8;
 		register_value = register_value | d;
@@ -893,9 +907,10 @@ int MPU6050::getFIFOCount()
 {
 	uint8_t buffer[2];
 	uint16_t tmp;
-	HAL_StatusTypeDef status =readSingleByte(&buffer[0], MPU6050_FIFO_COUNTH);
+	uint8_t status =readSingleByte(&buffer[0], MPU6050_FIFO_COUNTH);
 	status = status | readSingleByte(&buffer[1], MPU6050_FIFO_COUNTL);
-	tmp=(uint16_t)buffer;
+	//tmp=(buffer[0]<<8) | buffer[1];
+	tmp=(buffer[0]<<8) | buffer[1];
 
 
 
@@ -939,7 +954,7 @@ HAL_StatusTypeDef MPU6050::readSingleByte(uint8_t *d, uint8_t reg)
 {
 	uint8_t tmp=0,r=reg;
 	HAL_StatusTypeDef status = HAL_I2C_Master_Transmit(_dev,MPU6050_WRITE_ADD,&r,1,10);
-	status = status | HAL_I2C_Master_Receive(_dev,MPU6050_READ_ADD,&tmp,1,10);
+	status =HAL_I2C_Master_Receive(_dev,MPU6050_READ_ADD,&tmp,1,10);
 	*d=tmp;
 	return status;
 

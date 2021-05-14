@@ -183,6 +183,7 @@ class MPU6050
 		int setLowPassFilter(uint8_t d);
 		int setExtFrameSync(uint8_t d);
 		int  setSampleRateDiv(uint8_t val);
+		int powerOn();
 
 
 
