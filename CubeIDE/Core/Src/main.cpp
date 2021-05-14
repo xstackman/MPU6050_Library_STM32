@@ -98,23 +98,20 @@ int main(void)
   MX_I2C4_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-  MPU6050 sensor=MPU6050(&hi2c4,0xD3);
+  MPU6050 sensor=MPU6050(&hi2c4);
   if(sensor.isDetected()){
 	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
 	  sensor.powerOn();
 	  sensor.setSampleRateDiv(0);
 	  sensor.setLowPassFilter(0);
-	  sensor.setClockSource(0);
+	  sensor.setClockSource(internal8MHz);
 	  sensor.enableFIFO();
 	  sensor.enableTempSensor();
 	  sensor.resetTemperatureADC();
   }
-  //sensor.setConfigReg(0x00);
-  //sensor.setSampleRateDiv(0x00);
- // sensor.setFifoEnable(0x80);
+
 
   float temperature=0;
-  uint8_t tmp_reg=0;
   char buffer_uart[20];
   /* USER CODE END 2 */
 

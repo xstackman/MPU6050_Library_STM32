@@ -1,5 +1,5 @@
 MPU6050.cpp:10:1:MPU6050::MPU6050()	16	static
-MPU6050.cpp:14:1:MPU6050::MPU6050(I2C_HandleTypeDef*, uint8_t)	24	static
+MPU6050.cpp:14:1:MPU6050::MPU6050(I2C_HandleTypeDef*)	16	static
 MPU6050.cpp:21:5:int MPU6050::isDetected()	24	static
 MPU6050.cpp:45:6:int MPU6050::setSampleRateDiv(uint8_t)	24	static
 MPU6050.cpp:54:5:int MPU6050::setExtFrameSync(uint8_t)	24	static

@@ -11,10 +11,10 @@ MPU6050::MPU6050 () {
 	// TODO Auto-generated constructor stub
 
 }
-MPU6050::MPU6050 (I2C_HandleTypeDef *dev,uint8_t add)
+MPU6050::MPU6050 (I2C_HandleTypeDef *dev)
 {
 	_dev=dev;
-	_dev_address=add;
+
 
 }
 

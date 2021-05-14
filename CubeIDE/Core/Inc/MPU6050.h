@@ -145,7 +145,7 @@ class MPU6050
 {
 	public:
 		MPU6050 ();
-		MPU6050 (I2C_HandleTypeDef *dev,uint8_t add);
+		MPU6050 (I2C_HandleTypeDef *dev);
 		int isDetected();
 		int getFIFOCount();
 		int setClockSource(uint8_t d);
