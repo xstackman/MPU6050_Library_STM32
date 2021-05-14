@@ -14,6 +14,9 @@ MPU6050::MPU6050 () {
 MPU6050::MPU6050 (I2C_HandleTypeDef *dev)
 {
 	_dev=dev;
+	_gyroXOffset=0;
+	_gyroYOffset=0;
+	_gyroZOffset=0;
 
 
 }
@@ -567,8 +570,7 @@ int16_t MPU6050::getAccelX()
 	uint8_t status =readSingleByte(&buffer[0], MPU6050_ACCEL_XOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_ACCEL_XOUT_L);
 	tmp=(buffer[0]<<8) | buffer[1];
-	tmp-=1;
-	tmp = ~tmp;
+	tmp= tmp  ^ 0x8000;
 
 	if(status == HAL_OK)
 		return tmp;
@@ -583,8 +585,7 @@ int16_t MPU6050::getAccelY()
 	uint8_t status =readSingleByte(&buffer[0], MPU6050_ACCEL_YOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_ACCEL_YOUT_L);
 	tmp=(buffer[0]<<8) | buffer[1];
-	tmp-=1;
-	tmp = ~tmp;
+	tmp= tmp  ^ 0x8000;
 
 	if(status == HAL_OK)
 		return tmp;
@@ -599,8 +600,7 @@ int16_t MPU6050::getAccelZ()
 	uint8_t status =readSingleByte(&buffer[0], MPU6050_ACCEL_ZOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_ACCEL_ZOUT_L);
 	tmp=(buffer[0]<<8) | buffer[1];
-	tmp-=1;
-	tmp = ~tmp;
+	tmp= tmp  ^ 0x8000;
 
 	if(status == HAL_OK)
 		return tmp;
@@ -633,11 +633,10 @@ int16_t MPU6050::getGyroX()
 	uint8_t status =readSingleByte(&buffer[0], MPU6050_GYRO_XOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_GYRO_XOUT_L);
 	tmp=(buffer[0]<<8) | buffer[1];
-	tmp-=1;
-	tmp = ~tmp;
+	tmp= tmp  ^ 0x8000;
 
 	if(status == HAL_OK)
-		return tmp;
+		return (tmp-_gyroXOffset);
 	else
 		return 0;
 }
@@ -649,11 +648,10 @@ int16_t MPU6050::getGyroY()
 	uint8_t status =readSingleByte(&buffer[0], MPU6050_GYRO_YOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_GYRO_YOUT_L);
 	tmp=(buffer[0]<<8) | buffer[1];
-	tmp-=1;
-	tmp = ~tmp;
+	tmp= tmp  ^ 0x8000;
 
 	if(status == HAL_OK)
-		return tmp;
+		return (tmp-_gyroYOffset);
 	else
 		return 0;
 }
@@ -665,11 +663,10 @@ int16_t MPU6050::getGyroZ()
 	uint8_t status =readSingleByte(&buffer[0], MPU6050_GYRO_ZOUT_H);
 	status = status | readSingleByte(&buffer[1], MPU6050_GYRO_ZOUT_L);
 	tmp=(buffer[0]<<8) | buffer[1];
-	tmp-=1;
-	tmp = ~tmp;
+	tmp= tmp  ^ 0x8000;
 
 	if(status == HAL_OK)
-		return tmp;
+		return (tmp - _gyroZOffset);
 	else
 		return 0;
 }
@@ -931,6 +928,26 @@ int MPU6050::getFIFOCount()
  * 	Pendiente Power Management 2
  * */
 
+int MPU6050::calibrate()
+{
+	int16_t tmp=0;
+	int16_t gyroXOffset=0;
+	int16_t gyroYOffset=0;
+	int16_t gyroZOffset=0;
+	for (int x=0;x<20;x++)
+		tmp=getGyroX();
+	for (int x=0;x<20;x++)
+	{
+		gyroXOffset += uint16_t(getGyroX());
+		gyroYOffset += uint16_t(getGyroY());
+		gyroZOffset += (uint16_t)(getGyroZ());
+	}
+	_gyroXOffset = gyroXOffset / 20;
+	_gyroYOffset = gyroYOffset / 20;
+	_gyroZOffset = gyroZOffset / 20;
+
+	return 0;
+}
 
 
 

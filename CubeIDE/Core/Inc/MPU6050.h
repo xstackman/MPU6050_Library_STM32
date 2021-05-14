@@ -137,7 +137,7 @@ typedef enum
 }MPU6050ClockSource;
 
 #include "stm32f7xx_hal.h"
-
+#include  <stdlib.h>
 
 
 
@@ -184,6 +184,7 @@ class MPU6050
 		int setExtFrameSync(uint8_t d);
 		int  setSampleRateDiv(uint8_t val);
 		int powerOn();
+		int calibrate();
 
 
 
@@ -196,6 +197,9 @@ class MPU6050
 	private:
 		I2C_HandleTypeDef *_dev;
 		uint8_t _dev_address;
+		int16_t _gyroXOffset;
+		int16_t _gyroYOffset;
+		int16_t _gyroZOffset;
 };
 
 #endif /* MPU6050_H_ */

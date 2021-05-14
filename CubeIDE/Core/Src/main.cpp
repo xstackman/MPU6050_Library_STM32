@@ -98,6 +98,7 @@ int main(void)
   MX_I2C4_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
   MPU6050 sensor=MPU6050(&hi2c4);
   if(sensor.isDetected()){
 	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
@@ -107,22 +108,36 @@ int main(void)
 	  sensor.setClockSource(internal8MHz);
 	  sensor.enableFIFO();
 	  sensor.enableTempSensor();
+	  sensor.setGyroscopeScale(Gscale4);
+	  sensor.setAccelerometerScale(Ascale4);
 	  sensor.resetTemperatureADC();
+	  sensor.calibrate();
+	  HAL_Delay(1000);
   }
 
 
-  float temperature=0;
-  char buffer_uart[20];
+
+  char buffer_uart[60];
+  int16_t gyroX=0,gyroY=0,gyroZ=0;
+  int16_t accelX=0,accelY=0,accelZ=0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  temperature=sensor.getTemperature();
-	  snprintf ( buffer_uart,20, "%f\n",temperature );
-	  HAL_UART_Transmit(&huart3, (uint8_t *)buffer_uart, 20, 10);
-	  HAL_Delay(500);
+	  gyroX = sensor.getGyroX();
+	  gyroY = sensor.getGyroY();
+	  gyroZ = sensor.getGyroZ();
+	  accelX=sensor.getAccelX();
+	  accelY=sensor.getAccelY();
+	  accelZ=sensor.getAccelZ();
+	  snprintf ( buffer_uart,60, "%d|%d|%d||%d|%d|%d\n",gyroX,gyroY,gyroZ,accelX,accelY,accelZ);
+	  HAL_UART_Transmit(&huart3, (uint8_t *)buffer_uart, 60, 10);
+	  for(int x=0;x<60;x++)
+		  buffer_uart[x]='\0';
+	  HAL_Delay(50);
 
 
     /* USER CODE END WHILE */
